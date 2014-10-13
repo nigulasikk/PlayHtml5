@@ -1,0 +1,160 @@
+<!doctype html>
+<html ng-app="ngApp">
+    <head>
+        <meta charset="UTF-8">
+<style>
+    html{
+        background-color: rgb(61, 58, 58);
+        color: white;
+    }
+    .red{color:red;}
+    .green{color:green;}
+</style>
+
+
+    </head>
+    <body ng-controller="bodyController">
+        Hello {{'World'}}!
+        <h1>数据双向绑定</h1>
+        <div>
+            <input type="text" ng-model="amount" min="0" required>
+            <input type="text" ng-model="price">
+            <p>{{amount*price|currency}}</p>
+        </div>
+
+<h1>ng-repeat 和前端实现全局搜索 和 排序</h1>
+        <div ng-controller="PhoneListCtrl" id="phoneList" ng-click="click()">
+            Search: <input ng-model="query">
+            Sort by:
+            <select ng-model="orderProp">
+                <option value="name">Alphabetical</option>
+                <option value="age">Newest</option>
+            </select>
+            <div id="status">Current filter: {{query}}</div>
+            <ul>
+                <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+                    {{phone.name}}
+                    <p>{{phone.snippet}}</p>
+                </li>
+            </ul>
+            <p>Total number of phones: {{phones.length}}</p>
+
+        </div>
+    <h1>迭代</h1>
+    <div>
+        <table>
+            <tr><th>row number</th></tr>
+            <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
+        </table>
+    </div>
+        <h1>include not success</h1>
+    <div ng-include src="guduqiuse.html"></div>
+        <h1> demo</h1>
+    <div>
+        列表截取 limitTo ，支持正负数：
+
+        {{ [1,2,3,4,5] | limitTo: 2 }}
+        {{ [1,2,3,4,5] | limitTo: -3 }}
+        大小写 lowercase ， uppercase ：
+
+        {{ 'abc' | uppercase }}
+        {{ 'Abc' | lowercase }}
+    </div>
+        <div ng-controller="viewControl">
+            <h1 >ng-view</h1>
+            <div ng-view></div>
+        </div>
+
+    <div contentEditable="true">指令contentEditable="true" </div>
+        <h1>ng-bind和 {{}}取值   and 双向绑定</h1>
+        <div ng-bind="bodyValue"></div>
+        <p>{{bodyValue}}</p>
+<button ng-click="getName()">取名字</button>
+<button ng-click="setName()">set名字</button>
+        <h1>ng-class</h1>
+        <p ng-class="{green:isGreen,red:isRed}">color</p>
+        <button ng-click="changeColor()">change Color</button>
+        <h1>ng-show  and  ng-hide</h1>
+        <button ng-click="ngToggle()">toggle menu</button>
+        <ul ng-show="ngShow">
+            <li>xixi</li>
+            <li>xixi</li>
+            <li>xixi</li>
+            <li>xixi</li>
+        </ul>
+        <h1>ng-animate</h1>
+
+        <h1>directive</h1>
+        <hello howToSay="say1()">xixixixii111111</hello>
+        <hello howToSay="say2()">xixixixii222222</hello>
+<h1>superman demo</h1>
+        <superman strength>strength</superman>
+        <br>
+        <superman strength speed>strength speed</superman>
+        <br>
+        <superman strength speed light>strength speed light</superman>
+<h1>独立scope</h1>
+        <separate></separate>
+        <separate></separate>
+        <separate></separate>
+<h1>scope绑定分类 @ = &</h1>
+        ctr:<input type="text" ng-model="ctrFlavor"><br>
+<drink flavor="ctrFlavor"></drink>
+<<h1>共用指令，sayHello</h1>
+        <greeting greet="sayHello(n)"></greeting><br>
+        <greeting greet="sayHello(n)"></greeting><br>
+        <greeting greet="sayHello(n)"></greeting>
+<h1>form directive</h1>
+        <form name="myForm" ng-controller="formCtrl" ng-submit="save()">
+            <input type="email" name="input" ng-model="user.username" required ng-minlength="3">
+            <span class="error" ng-show="myForm.input.$error.required">
+    Required!</span>
+  <span class="error" ng-show="myForm.input.$error.email">
+    Not valid email!</span>
+
+            <input type="text" ng-model="user.passwd">
+            <button ng-disabled="myForm.$invalid">submit</button>
+            <p style="color: red;"> 要通过input的name 来进行连接</p>
+            <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+            <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+            <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+            <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+            <tt>myForm.$error.email = {{!!myForm.$error.email}}</tt><br/>
+        </form>
+<h1>TODO List </h1>
+        <div ng-controller="TodoController">
+            <span>{{remaining()}} of {{todos.length}} remaining</span>
+            [ <a href="" ng-click="archive()">archive</a> ]
+            <ul class="unstyled">
+                <li ng-repeat="todo in todos">
+                    <input type="checkbox" ng-model="todo.done">
+                    <span class="done-{{todo.done}}">{{todo.text}}</span>
+                </li>
+            </ul>
+            <form ng-submit="addTodo()">
+                <input type="text" ng-model="todoText"  size="30"
+                       placeholder="add new todo here">
+                <input class="btn-primary" type="submit" value="add">
+            </form>
+        </div>
+        <h1>filter</h1>
+        {{1304375948024 |date:"yyyy:MM:dd"}}
+        <h2>自定义filter</h2>
+        {{'kaikai' | filter1}}
+        <h1>$http 内置对象 get JSon file</h1>
+
+        <p ng-repeat="todo in phones">
+            {{todo.name}}
+            <img ng-src="{{todo.url}}">
+        </p>
+
+        <script src="../js/angular.js"></script>
+        <script src="../js/angular-route.js"></script>
+        <script src="../js/angular-app.js"></script>
+
+        <script src="../js/ngControllers.js"></script>
+        <script src="../js/angular-directive.js"></script>
+    <script src="../js/angular-filters.js"></script>
+<script src="../js/angular-services.js"></script>
+    </body>
+</html>

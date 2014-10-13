@@ -1,0 +1,14 @@
+[
+    {"name": "Nexus S From jsonFile",
+        "snippet": "Fast just got faster with Nexus S.",
+        "url":"../img/task.jpg",
+        "age": 0},
+    {"name": "Motorola XOOM™ with Wi-Fi From jsonFile",
+        "snippet": "The Next, Next Generation tablet.",
+        "url":"../img/task.jpg",
+        "age": 1},
+    {"name": "MOTOROLA XOOM™ From jsonFile",
+        "snippet": "The Next, Next Generation tablet.",
+        "url":"../img/task.jpg",
+        "age": 2}
+]

@@ -1,0 +1,7 @@
+<h3>ngView1</h3>
+<ul>
+    <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+        {{phone.name}}
+        <p>{{phone.snippet}}</p>
+    </li>
+</ul>

@@ -43,18 +43,19 @@ function draw(amount){
     ctx.fillRect(randomCol*totalLength,randomRow*totalLength,sideLength,sideLength);
 
 }
+//初始化
 draw(2);
 $("#canvas").click(function(e){
 //    if(clickTime<20)
         clickTime++;
-//    if(getPosition(e)==otherColorBlockNum){
-//        //清除画布
-//
-//    }
-    ctx.clearRect(0,0,screenLength,screenLength);
-    draw(clickTime);
-    //更新得分
-    $("#score").text(clickTime-2);
+    if(getPosition(e)==otherColorBlockNum){
+        //清除画布
+        ctx.clearRect(0,0,screenLength,screenLength);
+        draw(clickTime);
+        //更新得分
+        $("#score").text(clickTime-2);
+    }
+
 
 
 });

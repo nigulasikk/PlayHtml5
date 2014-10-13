@@ -121,7 +121,7 @@ $(".hello-test").click(function(){
 //js对象
 function A(x, y) {
     this.x = x;
-    this.y = y;
+     this.y = y;
     this.state="open";
     A.prototype.close = function () {
         console.log("A方法 close")
@@ -428,14 +428,14 @@ function plueOne(){
 //console.log("plus!"+plusNum);
     $("#run-value").text(plusNum);
 }
-
+//球下落
 (function(){
     var context = document.getElementById("ball-fall").getContext('2d');
 
     var ball={x:30,y:30,r:10,vx:5,vy:-2,color:"#FAEF77"}
 var balls=[];
     var colors=["#333333","#33CC66","#CC3333","#CCFF66","#99FF66"]
-
+//可以修改球产生的个数
     for(var i=0;i<100;i++){
         var x=Math.random()*1000;
         var y=Math.random()*50;
@@ -453,7 +453,6 @@ var balls=[];
 //        render2();
     },50);
     function render2(){
-        //清楚图层
         context.fillStyle="green";
         context.beginPath();
         context.arc(990,490,10,0,2*Math.PI);
@@ -474,15 +473,22 @@ var balls=[];
     }
     function update(){
         for(var i=0;i<balls.length;i++){
+//            console.log("Vy："+balls[i].vy+"---y:"+balls[i].y+"能量："+(2*(490-balls[i].y)+balls[i].vy*balls[i].vy/2));
+
             balls[i].x+=balls[i].vx;
-            balls[i].y+=balls[i].vy;
+            //这里要遵循能量守恒公式
+            // g(h1-h0)=(v1*v1-v0*v0)/2
+            // v1=vo+gt
+            // g=2 代入算得 y1-y0=2V0+4
+            balls[i].y+=balls[i].vy*2+4;
 //        重力
-            balls[i].vy+=1;
+            balls[i].vy+=2;
             //小球碰到底部
-            if(balls[i].y>=500-10){
-                balls[i].y=490
+            if(balls[i].y>=490){
+                balls[i].y=490;
                 //能耗损失
-                balls[i].vy=-balls[i].vy*.5;
+                balls[i].vy=-balls[i].vy*3/4;
+//                console.log("进行能量损失："+balls[i].vy+"---y:"+balls[i].y);
             }
             if(balls[i].y<=10){
                 balls[i].y=10;
@@ -505,4 +511,91 @@ var balls=[];
 
 
     }
+
 })();
+
+//canvas 倒计时
+//绘制里面的渐变颜色
+var countDownCtx = document.getElementById("count-down").getContext('2d');
+
+var color = countDownCtx.createLinearGradient(0, 0, 512, 260);
+color.addColorStop(0, '#4d2d55');
+color.addColorStop(1, '#1d7725');
+
+countDownCtx.beginPath();
+countDownCtx.fillStyle = color;
+countDownCtx.arc(100, 100, 99, 0, 2 * Math.PI);
+countDownCtx.fill();
+countDownCtx.closePath();
+
+// fillText
+countDownCtx.font="100px Arial";
+countDownCtx.fillText("1",500,100);
+
+// strokeText
+countDownCtx.font="100px Arial";
+countDownCtx.strokeText("1",75,125);
+//3D方框旋转效果
+$(document).mousemove(function(event) {
+        var cx = Math.ceil($(document).width() / 2.0);
+        var cy = Math.ceil($(document).height() / 2.0);
+        var dx = event.pageX - cx;
+        var dy = event.pageY - cy;
+        var tiltX = (dy / cy);
+        var tiltY = -(dx / cx);
+        var radius = Math.sqrt(Math.pow(tiltX, 2) + Math.pow(tiltY, 2));
+        var degree = (radius * 40);
+        if (degree > 20)
+            degree = 20;
+
+        $(".child").css('transform', 'rotate3d(' + tiltX + ', ' + tiltY +
+            ', 0, ' + degree + 'deg)');
+});
+
+//类似一个淘宝查快递的一个效果||css实现箭头
+//子订单 hover效果
+$(".son-order").hover(function(){
+    //先清空上一个已经显示的订单细节的框框
+    $("#order-detail-container").remove();
+    $(this).css("cursor","pointer");
+    //            取得点击坐标图片的坐标
+    var x,y;
+    if($(this).layerX){
+        //ff
+        x=$(this).layerX-50;
+        y=$(this).layerY+25;
+
+    }else{
+        //chrome
+        y=$(this).offset().top+30;
+        x=$(this).offset().left-60;
+    }
+
+    var orderDetail='<div id="order-detail-container" style="position:absolute;top:'+y+'px;left:'+x+'px">' +
+        '<table id="order-detail-table">' +
+        '<tr><th class="order-table-department">单位</th><th class="order-table-number">数量</th><th class="order-table-state">状态</th><th>操作</th></tr>'+
+        '<tr><td class="order-table-department">cheos</td><td class="order-table-number">3</td><td class="order-table-state">等待审核</td><td class="order-table-detail"><button>详情</button></td></tr>'+
+        '<tr><td class="order-table-department">cheos</td><td class="order-table-number">3</td><td class="order-table-state">等待审核</td><td class="order-table-detail"><button>详情</button></td></tr>'+
+        '<tr><td class="order-table-department">cheos</td><td class="order-table-number">3</td><td class="order-table-state">等待审核</td><td class="order-table-detail"><button>详情</button></td></tr>'+
+        '<tr><td class="order-table-department">cheos</td><td class="order-table-number">3</td><td class="order-table-state">等待审核</td><td class="order-table-detail"><button>详情</button></td></tr>'+
+
+        '</table>'+'<div class="arr"><div class="arr-white"></div></div>'
+    '</div>';
+    $("body").append(orderDetail);
+    //当鼠标移出 订单细节 框框时候，这个框框消失
+    $("#order-detail-container").hover(function(){},function(){
+        $("#order-detail-container").remove();
+    });
+    //绑定事件前先解除绑定
+    $(document).unbind("click");
+    //点击网页其他任何地方，进行框框的移出操作
+    $(document).click(function(){
+        $("#order-detail-container").remove();
+    });
+    //点击框框时候，阻止事件冒泡
+    $("#order-detail-container").click(function(e){
+        e.stopPropagation();
+    });
+},function(){
+//            $("#order-detail-container").remove();
+});
